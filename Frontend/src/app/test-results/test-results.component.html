@@ -1,0 +1,39 @@
+<!-- test-results/test-results.component.html -->
+<div class="results-container">
+    <div class="results-header">
+      <h2>Generated Tests</h2>
+      <button class="download-all-button" (click)="downloadAllTests()">
+        Download All Tests
+      </button>
+    </div>
+    
+    <div class="summary">
+      <div class="summary-item">
+        <span class="summary-label">Total Tests:</span>
+        <span class="summary-value">{{results.tests?.length || 0}}</span>
+      </div>
+      <div class="summary-item">
+        <span class="summary-label">Type:</span>
+        <span class="summary-value">{{results.type === 'unit' ? 'Unit Tests' : 'System Tests'}}</span>
+      </div>
+      <div class="summary-item" *ngIf="results.coverage">
+        <span class="summary-label">Estimated Coverage:</span>
+        <span class="summary-value">{{results.coverage}}%</span>
+      </div>
+    </div>
+    
+    <div *ngIf="results.tests?.length === 0" class="no-tests">
+      No tests were generated. Please check your code or repository and try again.
+    </div>
+    
+    <div *ngFor="let test of results.tests; let i = index" class="test-result">
+      <div class="test-header">
+        <h3>{{test.fileName}}</h3>
+        <button class="download-button" (click)="downloadTest(test.fileName, test.content)">
+          Download
+        </button>
+      </div>
+      
+      <pre class="test-content"><code>{{test.content}}</code></pre>
+    </div>
+  </div>

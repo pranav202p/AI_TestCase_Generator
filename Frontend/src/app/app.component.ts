@@ -1,12 +1,15 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { TestGeneratorComponent } from './test-generator/test-generator.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
-  templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  standalone: true,  // ✅ Standalone component
+  imports: [TestGeneratorComponent],  // ✅ Import the component
+  template: `
+    <app-test-generator></app-test-generator>
+  `,
+  styles: []
 })
 export class AppComponent {
-  title = 'Frontend';
+  title = 'test-generator';
 }
