@@ -1,6 +1,6 @@
 /* Main container */
 .container {
-  width: 80%;
+  width: 60%;
   margin: auto;
   text-align: center;
   color:white;
@@ -62,7 +62,7 @@ button:hover {
   border-radius: 20px;
   outline: none;
   font-size: 16px;
-  color: white;
+  color: rgb(77, 13, 224);
   background-color: #3a3a3a;
 }
 
@@ -117,3 +117,4 @@ button:hover {
 .upload-label:hover {
   background: #0056b3;
 }
+
