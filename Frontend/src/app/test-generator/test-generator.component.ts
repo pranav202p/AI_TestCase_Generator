@@ -1,57 +1,102 @@
-import { Component } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, AbstractControl, ValidationErrors } from '@angular/forms';
 import { TestGeneratorService } from '../services/test-generator.service';
-import { CommonModule } from '@angular/common';  
+import { CommonModule } from '@angular/common';
+import { firstValueFrom } from 'rxjs';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-test-generator',
+  standalone: true,
   templateUrl: './test-generator.component.html',
-  imports: [CommonModule],  
+  imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./test-generator.component.css']
 })
-export class TestGeneratorComponent {
-  isLoading: boolean = false; 
+
+export class TestGeneratorComponent implements OnInit {
+  isLoading: boolean = false;
   testForm: FormGroup;
   testResults: any = null;
   errorMessage: string = '';
-  selectedFiles: File[] = [];
+  selectedFile: File | null = null; // Allow only one ZIP file
 
   constructor(
     private fb: FormBuilder,
     private testService: TestGeneratorService
   ) {
     this.testForm = this.fb.group({
-      repoUrl: ['', [Validators.pattern(/^https:\/\/github\.com\/.*$/)]],
+      repoUrl: ['', [Validators.required, this.githubUrlValidator]],
       testType: ['unit', Validators.required]
     });
   }
-  onFileSelect(event: any): void {
-    this.selectedFiles = Array.from(event.target.files);
+
+  ngOnInit(): void {}
+
+  /**
+   * Custom Validator for GitHub Repository URLs
+   */
+  githubUrlValidator(control: AbstractControl): ValidationErrors | null {
+    const githubRegex = /^https:\/\/github\.com\/[\w-]+\/[\w-]+(\.git)?$/;
+    return control.value && !githubRegex.test(control.value) ? { invalidGithubUrl: true } : null;
   }
-  
-  onSubmit(): void {
-    if (this.testForm.invalid && this.selectedFiles.length === 0) {
-      this.errorMessage = 'Please provide either a GitHub repository URL or upload Java files';
+
+  /**
+   * Handles file selection for ZIP uploads
+   */
+  onFileSelect(event: any): void {
+    const file = event.target.files[0];
+
+    if (!file) {
+      this.selectedFile = null;
+      this.errorMessage = 'No file selected. Please upload a ZIP file.';
       return;
     }
 
+    if (file.type !== 'application/zip' && !file.name.endsWith('.zip')) {
+      this.selectedFile = null;
+      this.errorMessage = 'Invalid file type. Please upload a ZIP file.';
+      return;
+    }
+
+    this.selectedFile = file;
+    this.errorMessage = ''; // Clear error if a valid file is selected
+  }
+
+  /**
+   * Submits the form to backend (handles both GitHub URL & ZIP file)
+   */
+  async onSubmit(): Promise<void> {
+    this.isLoading = true;
     this.errorMessage = '';
     this.testResults = null;
 
-    if (this.testForm.value.repoUrl) {
-      // Call the backend API to fetch and parse the repository
-      this.testService.fetchFromGitHub(this.testForm.value.repoUrl).subscribe(
-        (response) => {
-          console.log('Test cases received:', response);
-          this.testResults = response;
-        },
-        (error) => {
-          console.error('Error fetching repository:', error);
-          this.errorMessage = 'Failed to process repository.';
-        }
-      );
-    } else {
-      this.errorMessage = 'Invalid repository URL.';
+    if (this.testForm.invalid && !this.selectedFile) {
+      this.errorMessage = 'Please provide a valid GitHub repository URL or upload a ZIP file.';
+      this.isLoading = false;
+      return;
+    }
+
+    try {
+      let response;
+      if (this.selectedFile) {
+        // Handle ZIP file upload
+        const formData = new FormData();
+        formData.append('file', this.selectedFile);
+        response = await firstValueFrom(this.testService.uploadZip(formData));
+      } else {
+        // Handle GitHub repo URL submission
+        response = await firstValueFrom(
+          this.testService.fetchFromGitHub(this.testForm.value.repoUrl)
+        );
+      }
+
+      this.testResults = response;
+      console.log('✅ Test cases received:', response);
+    } catch (error) {
+      console.error('❌ Error processing request:', error);
+      this.errorMessage = 'Failed to process. Please check the input and try again.';
+    } finally {
+      this.isLoading = false;
     }
   }
 
@@ -60,7 +105,7 @@ export class TestGeneratorComponent {
       repoUrl: '',
       testType: 'unit'
     });
-    this.selectedFiles = [];
+    this.selectedFile = null;
     this.testResults = null;
     this.errorMessage = '';
   }

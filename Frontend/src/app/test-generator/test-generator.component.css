@@ -62,7 +62,7 @@ button:hover {
   border-radius: 20px;
   outline: none;
   font-size: 16px;
-  color: rgb(77, 13, 224);
+  color: white;
   background-color: #3a3a3a;
 }
 
@@ -116,5 +116,10 @@ button:hover {
 
 .upload-label:hover {
   background: #0056b3;
+}
+.file-icon {
+  color: white;  /* Sets the text color to white */
+  font-weight: bold;
+  margin-left: 10px; /* Adds some spacing */
 }
 
