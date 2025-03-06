@@ -1,15 +1,18 @@
 <div class="container">
-  <!-- <h2>AI-Powered Test Case Generator</h2> -->
-
   <!-- Main Test Case Generation Area -->
   <div class="test-case-area">
-    <!-- Loader -->
-    <div class="loading">Generating Tests...</div>
+    <!-- Loader (Show only when loading) -->
+    <div *ngIf="isLoading" class="loading">Generating Tests...</div>
 
     <!-- Test Results -->
-    <div class="results">
+    <div class="results" *ngIf="testResults">
       <h3>Generated Test Cases</h3>
-      <pre>Test cases will appear here.</pre>
+      <pre>{{ testResults }}</pre>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="error">
+      {{ errorMessage }}
     </div>
   </div>
 
@@ -17,16 +20,18 @@
   <div class="search-bar">
     <!-- Plus Button for Upload -->
     <label for="projectUpload" class="upload-label">+</label>
-    <input type="file" id="projectUpload" multiple style="display: none;" />
+    <input type="file" id="projectUpload" multiple (change)="onFileSelect($event)" style="display: none;" />
 
-    <input type="text" id="repoUrl" placeholder="Enter GitHub repo URL" />
+    <!-- GitHub Repository URL Input -->
+    <input 
+      type="text" 
+      id="repoUrl" 
+      placeholder="Enter GitHub repo URL" 
+      formControlName="repoUrl"
+    />
 
-    <!-- <select id="testType">
-      <option value="unit">Unit Test</option>
-      <option value="integration">Integration Test</option>
-    </select> -->
-
-    <button type="button" class="search-btn">
+    <!-- Submit Button -->
+    <button type="button" class="search-btn" (click)="onSubmit()">
       &#x2191; <!-- Upward arrow symbol -->
     </button>
   </div>

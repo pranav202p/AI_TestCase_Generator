@@ -1,19 +1,16 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TestGeneratorService {
-  constructor() {}
+  private backendUrl = 'http://localhost:8080/api/fetch-repo';
 
-  generateTests(formData: FormData) {
-    // For now, return mock data instead of making an HTTP request
-    return {
-      message: "Test cases generated successfully!",
-      tests: [
-        { name: "SampleTest1", status: "Success" },
-        { name: "SampleTest2", status: "Success" }
-      ]
-    };
+  constructor(private http: HttpClient) {}
+
+  fetchFromGitHub(repoUrl: string): Observable<any> {
+    return this.http.post(this.backendUrl, { repoUrl });
   }
 }
