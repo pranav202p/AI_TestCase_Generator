@@ -1,25 +1,10 @@
 <div class="container">
-  <h2>AI-Powered Test Case Generator</h2>
+  <!-- <h2>AI-Powered Test Case Generator</h2> -->
 
   <!-- Main Test Case Generation Area -->
   <div class="test-case-area">
-    <!-- <form>
-     
-      <div class="form-group">
-        <label for="fileInput">Upload Java Files</label>
-        <input type="file" id="fileInput" multiple />
-      </div>
-
-     
-      <button type="submit" class="generate-btn">Generate Tests</button>
-      <button type="button" class="reset-btn">Reset</button>
-    </form> -->
-
     <!-- Loader -->
     <div class="loading">Generating Tests...</div>
-
-    <!-- Error Message
-    <div class="error">An error occurred.</div> -->
 
     <!-- Test Results -->
     <div class="results">
@@ -30,12 +15,16 @@
 
   <!-- Bottom Search Bar -->
   <div class="search-bar">
+    <!-- Plus Button for Upload -->
+    <label for="projectUpload" class="upload-label">+</label>
+    <input type="file" id="projectUpload" multiple style="display: none;" />
+
     <input type="text" id="repoUrl" placeholder="Enter GitHub repo URL" />
-    
-    <select id="testType">
+
+    <!-- <select id="testType">
       <option value="unit">Unit Test</option>
       <option value="integration">Integration Test</option>
-    </select>
+    </select> -->
 
     <button type="button" class="search-btn">
       &#x2191; <!-- Upward arrow symbol -->
