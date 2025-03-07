@@ -61,6 +61,9 @@ export class TestGeneratorComponent implements OnInit {
     this.selectedFile = file;
     this.errorMessage = ''; // Clear error if a valid file is selected
   }
+  removeFile(): void {
+    this.selectedFile = null;
+  }
 
   /**
    * Submits the form to backend (handles both GitHub URL & ZIP file)

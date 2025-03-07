@@ -1,37 +1,127 @@
+Main variables for consistent colors
+:root {
+  --bg-dark: #1a2e35;
+  --bg-gradient: linear-gradient(to bottom, #1a2e35, #132026);
+  --bg-card: #22363f;
+  --accent-teal: #36d1dc;
+  --text-light: #ffffff;
+  --text-secondary: #b0b0b0;
+  --card-border: #2a4049;
+  --input-bg: #2a3b42;
+  --button-bg: #36d1dc;
+  --button-hover: #5bdbe3;
+}
+
+/* Global styles */
+body {
+  background: var(--bg-gradient);
+  margin: 0;
+  padding: 0;
+  color: var(--text-light);
+  font-family: 'Inter', Arial, sans-serif;
+}
+.main-heading {
+  text-align: center;  /* Centers the heading */
+  font-size: 28px;  /* Adjusts text size */
+  font-weight: bold;  /* Makes the text bold */
+  color: white;  /* Dark grayish-blue color */
+  margin-bottom: 20px;  /* Adds space below the heading */
+  text-transform: uppercase;  /* Converts text to uppercase */
+  
+  
+  padding-bottom: 5px;  /* Adds spacing between text and underline */
+  width: 100%; /* Ensures it spans across the container */
+}
+
 /* Main container */
 .container {
-  width: 60%;
+  width: 50%;
   margin: auto;
   text-align: center;
-  color:black;
-  font-family: Arial, sans-serif;
+  color: white;
+  position: relative;
+  min-height: 100vh;
+  padding-bottom: 100px; /* Space for fixed search bar */
 }
 
 /* Test Case Area */
 .test-case-area {
-  background-color: #9cadce;
+  background-color: var(--bg-card);
   padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+  border: 1px solid var(--card-border);
+  box-shadow: white;
+ 
   margin-top: 100px;
+  transition: all 0.3s ease;
+}
+
+
+
+
+/* Loading indicator */
+.loading {
+  font-size: 18px;
+  font-weight: bold;
+  color: var(--text-light);
+  margin: 20px 0;
+}
+
+/* Test Results */
+.results {
+  text-align: left;
+  background-color: var(--input-bg);
+  padding: 15px;
+  border-radius: 6px;
+  margin-top: 15px;
+  overflow-x: auto;
+}
+
+.results h3 {
+  color: var(--accent-teal);
+  margin-top: 0;
+}
+
+.results pre {
+  white-space: pre-wrap;
+  font-family: monospace;
+  color: var(--text-light);
+}
+
+/* Error Message */
+.error {
+  color: #ff6b6b;
+  background-color: rgba(255, 107, 107, 0.1);
+  padding: 10px;
+  border-radius: 6px;
+  margin-top: 15px;
+  border-left: 4px solid #ff6b6b;
 }
 
 /* Form Groups */
 .form-group {
-  margin: 10px 0;
+  margin: 15px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* Buttons */
 button {
-  background-color: #d2e0d3;
-  color: white;
+  background-color: var(--button-bg);
+  color: var(--bg-dark);
   padding: 10px 15px;
   border: none;
+  border-radius: 4px;
   cursor: pointer;
+  font-weight: bold;
+  transition: all 0.2s ease;
 }
 
 button:hover {
-  background-color: #d2e0d3;
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 /* Search Bar */
@@ -40,86 +130,156 @@ button:hover {
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: #050404;  /* Dark Gray-Black Background */
-  padding: 15px;
+  background-color: #e2e7e9dc; /* Slightly darker than the main background */
+  padding: 15px 20px;
   border-radius: 50px;
-  border-color: rgb(255, 254, 254);
-  border-width: 2px;
-  box-shadow: 0 0 8px rgba(245, 241, 241, 0.2);
-  width: 60%;
+  border: 1px solid var(--card-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  width: 40%;
   margin: auto;
   position: fixed;
   bottom: 20px; /* Sticks to bottom */
   left: 50%;
   transform: translateX(-50%);
+  z-index: 1000;
+  transition: all 0.3s ease;
+}
+
+.search-bar form {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+}
+
+/* Labels */
+.search-bar label {
+  color: var(--text-light);
+  font-weight: bold;
+  white-space: nowrap;
 }
 
 /* Search Input */
-.search-bar input {
+.search-bar input[type="text"] {
   flex: 1;
-  padding: 10px;
+  padding: 12px 15px;
   border: none;
   border-radius: 20px;
   outline: none;
   font-size: 16px;
-  color: white;
-  background-color: #3a3a3a;
+  color: black;
+  background-color: var(--input-bg);
+  transition: background-color 0.3s;
+}
+
+.search-bar input[type="text"]:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 0 2px rgba(54, 209, 220, 0.3);
 }
 
 .search-bar input::placeholder {
-  color: #b0b0b0;
+  color: var(--text-secondary);
 }
 
 /* Dropdown */
 .search-bar select {
-  padding: 10px;
+  padding: 12px 15px;
   border-radius: 20px;
   border: none;
-  background-color: #3a3a3a;
-  color: white;
+  background-color: var(--input-bg);
+  color: var(--text-light);
+  outline: none;
+  cursor: pointer;
+}
+
+.search-bar select:focus {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Upload Button / Label */
+.upload-label {
+  font-size: 18px;
+  background-color:  #22363f;
+  color: var(--bg-dark);
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+}
+
+.upload-label:hover {
+  background:  #2a4049;
+  transform: translateY(-2px);
+}
+/* File Icon & Selected File Display */
+.file-icon {
+  display: flex;
+  align-items: center;
+  color: #36d1dc;
+  font-weight: bold;
+  margin-left: 10px;
+  background-color: white;
+  padding: 5px 10px;
+  border-radius: 15px;
+}
+
+/* Remove File Button */
+.remove-file-btn {
+  background: transparent;
+  color: #ff6b6b;
+  border: none;
+  font-size: 16px;
+  padding: 0 5px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.remove-file-btn:hover {
+  color: #ff8a80;
+  background-color: transparent;
+  transform: none;
+  box-shadow: none;
 }
 
 /* Search Button (Arrow) */
 .search-btn {
-  font-size: 20px;
-  background-color: #007bff;
-  color: white;
+  font-size: 18px;
+  background-color:  #22363f;
+  color: var(--bg-dark);
   border-radius: 50%;
-  padding: 8px 16px;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
 }
 
 .search-btn:hover {
-  background-color: #0056b3;
+  background-color:  #2a4049;
+  transform: translateY(-2px);
 }
 
-
-.search-bar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .container {
+    width: 90%;
+  }
+  
+  .search-bar {
+    width: 90%;
+    flex-wrap: wrap;
+    padding: 12px 15px;
+  }
+  
+  .search-bar form {
+    flex-wrap: wrap;
+  }
 }
-
-.upload-label {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background: #007bff;
-  color: white;
-  font-size: 20px;
-  text-align: center;
-  line-height: 30px;
-  border-radius: 50%;
-  cursor: pointer;
-}
-
-.upload-label:hover {
-  background: #0056b3;
-}
-.file-icon {
-  color: white;  /* Sets the text color to white */
-  font-weight: bold;
-  margin-left: 10px; /* Adds some spacing */
-}
-
