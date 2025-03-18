@@ -1,29 +1,46 @@
 <div class="container">
-  <!-- Main Test Case Generation Area -->
-   <!-- Heading -->
+  <!-- Heading -->
   <h2 class="main-heading">✨Test Case Generator✨</h2>
-  <div class="test-case-area">
-    <!-- Loader (Show only when loading) -->
-    <div *ngIf="isLoading" class="loading">Generating Tests...</div>
-    <!-- Test Results -->
-    <div class="results" *ngIf="testResults">
-      <h3>Generated Test Cases</h3>
-      <pre>{{ testResults | json }}</pre>
-    </div> <!-- Error Message -->
-    <div *ngIf="errorMessage" class="error"> {{ errorMessage }} </div>
-  </div> <!-- Bottom Search Bar -->
-  <div class="search-bar">
-    <form [formGroup]="testForm" (ngSubmit)="onSubmit()">
-      <label for="projectUpload" class="upload-label">+</label>
-      <input type="file" id="projectUpload" accept=".zip" (change)="onFileSelect($event)" style="display: none;" />
-      <!-- File Icon & Name (Only Appears When a File is Selected) -->
-      <span *ngIf="selectedFile" class="file-icon"> 📂 {{ selectedFile.name }}
-        <button type="button" class="remove-file-btn" (click)="removeFile()">✖</button> </span>
-      <!-- GitHub Repository URL Input -->
-      <label for="repoUrl"></label> <input type="text" id="repoUrl" formControlName="repoUrl"
-        placeholder="Enter GitHub repository URL" /> 
-        <!-- File Upload Button --> <!-- Submit Button --> <button
-        type="submit" class="search-btn"> &#x2191; <!-- Upward arrow symbol --> </button>
-    </form>
-  </div> <!-- Fixed: Properly closed .search-bar div -->
-</div> <!-- Fixed: Properly closed .container div -->
+
+  <!-- Extra Boxed Container -->
+  <div class="extra-container">
+    <!-- Test Case Generation Area -->
+    <div class="test-case-area">
+      <!-- Loader (Show only when loading) -->
+      <div *ngIf="isLoading" class="loading">Generating Tests...</div>
+      <!-- Test Results -->
+      <div class="results" *ngIf="testResults">
+        <h3>Generated Test Cases</h3>
+        <pre>{{ testResults | json }}</pre>
+      </div>
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error"> {{ errorMessage }} </div>
+    </div>
+
+    <!-- Search Bar (User Input, Upload, Button) -->
+    <div class="search-bar">
+      <form [formGroup]="testForm" (ngSubmit)="onSubmit()">
+        <div class="upload-container">
+          <label for="projectUpload" class="upload-label">+  
+            <span class="tooltip">Upload only ZIP file</span> 
+          </label>
+          <input type="file" id="projectUpload" accept=".zip" (change)="onFileSelect($event)" 
+                 style="display: none;" [disabled]="isFileUploadDisabled"/>
+        </div>
+
+        <!-- File Icon & Name (Only Appears When a File is Selected) -->
+        <span *ngIf="selectedFile" class="file-icon"> 📂 {{ selectedFile.name }}
+          <button type="button" class="remove-file-btn" (click)="removeFile()">✖</button> 
+        </span>
+
+        <!-- GitHub Repository URL Input -->
+        <label for="repoUrl"></label> 
+        <input type="text" id="repoUrl" formControlName="repoUrl"
+          placeholder="Enter GitHub repository URL" />
+
+        <!-- Submit Button -->
+        <button type="submit" class="search-btn"> &#x2191; </button>
+      </form>
+    </div>
+  </div>
+</div>

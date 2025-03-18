@@ -12,21 +12,31 @@ import { ReactiveFormsModule } from '@angular/forms';
   imports: [CommonModule, ReactiveFormsModule],
   styleUrls: ['./test-generator.component.css']
 })
-
 export class TestGeneratorComponent implements OnInit {
   isLoading: boolean = false;
   testForm: FormGroup;
   testResults: any = null;
   errorMessage: string = '';
-  selectedFile: File | null = null; // Allow only one ZIP file
+  selectedFile: File | null = null;
+  isFileUploadDisabled: boolean = false;
+  isRepoUrlDisabled: boolean = false;
 
   constructor(
     private fb: FormBuilder,
     private testService: TestGeneratorService
   ) {
     this.testForm = this.fb.group({
-      repoUrl: ['', [Validators.required, this.githubUrlValidator]],
-      testType: ['unit', Validators.required]
+      repoUrl: ['', [Validators.required, this.githubUrlValidator]]
+    });
+
+    // Disable file upload when repo URL is entered
+    this.testForm.get('repoUrl')?.valueChanges.subscribe(value => {
+      if (value) {
+        this.isFileUploadDisabled = true; // Disable file upload
+        this.selectedFile = null; // Clear selected file
+      } else {
+        this.isFileUploadDisabled = false; // Enable file upload
+      }
     });
   }
 
@@ -52,7 +62,7 @@ export class TestGeneratorComponent implements OnInit {
       return;
     }
 
-    if (file.type !== 'application/zip' && !file.name.endsWith('.zip')) {
+    if (!file.name.endsWith('.zip')) {
       this.selectedFile = null;
       this.errorMessage = 'Invalid file type. Please upload a ZIP file.';
       return;
@@ -60,9 +70,17 @@ export class TestGeneratorComponent implements OnInit {
 
     this.selectedFile = file;
     this.errorMessage = ''; // Clear error if a valid file is selected
+    this.isRepoUrlDisabled = true; // Disable GitHub URL input
+    this.testForm.get('repoUrl')?.disable();
   }
+
+  /**
+   * Removes the selected file and re-enables the GitHub URL input
+   */
   removeFile(): void {
     this.selectedFile = null;
+    this.isRepoUrlDisabled = false;
+    this.testForm.get('repoUrl')?.enable(); // Enable GitHub URL input
   }
 
   /**
@@ -105,11 +123,13 @@ export class TestGeneratorComponent implements OnInit {
 
   resetForm(): void {
     this.testForm.reset({
-      repoUrl: '',
-      testType: 'unit'
+      repoUrl: ''
     });
     this.selectedFile = null;
     this.testResults = null;
     this.errorMessage = '';
+    this.isRepoUrlDisabled = false;
+    this.isFileUploadDisabled = false;
+    this.testForm.get('repoUrl')?.enable(); // Re-enable GitHub URL input
   }
 }

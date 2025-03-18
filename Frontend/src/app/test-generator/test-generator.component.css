@@ -1,4 +1,5 @@
-Main variables for consistent colors
+
+/* Define consistent colors */
 :root {
   --bg-dark: #1a2e35;
   --bg-gradient: linear-gradient(to bottom, #1a2e35, #132026);
@@ -20,17 +21,17 @@ body {
   color: var(--text-light);
   font-family: 'Inter', Arial, sans-serif;
 }
+
+/* Main Heading */
 .main-heading {
-  text-align: center;  /* Centers the heading */
-  font-size: 28px;  /* Adjusts text size */
-  font-weight: bold;  /* Makes the text bold */
-  color: white;  /* Dark grayish-blue color */
-  margin-bottom: 20px;  /* Adds space below the heading */
-  text-transform: uppercase;  /* Converts text to uppercase */
-  
-  
-  padding-bottom: 5px;  /* Adds spacing between text and underline */
-  width: 100%; /* Ensures it spans across the container */
+  text-align: center;
+  font-size: 28px;
+  font-weight: bold;
+  color: white;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+  width: 100%;
 }
 
 /* Main container */
@@ -41,36 +42,34 @@ body {
   color: white;
   position: relative;
   min-height: 100vh;
-  padding-bottom: 100px; /* Space for fixed search bar */
+  padding-bottom: 100px;
 }
 
 /* Test Case Area */
 .test-case-area {
-  background-color: var(--bg-card);
+  background-color: #e2e7e9dc;
   padding: 20px;
   border-radius: 12px;
   border: 1px solid var(--card-border);
-  box-shadow: white;
- 
+  outline: 3px solid #92c2f4;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
   margin-top: 100px;
   transition: all 0.3s ease;
 }
 
-
-
-
-/* Loading indicator */
+/* Loading Indicator */
 .loading {
   font-size: 18px;
   font-weight: bold;
-  color: var(--text-light);
+  color: black;
+  /* var(--text-light); */
   margin: 20px 0;
 }
 
 /* Test Results */
 .results {
   text-align: left;
-  background-color: var(--input-bg);
+  background-color:  grey;
   padding: 15px;
   border-radius: 6px;
   margin-top: 15px;
@@ -85,7 +84,7 @@ body {
 .results pre {
   white-space: pre-wrap;
   font-family: monospace;
-  color: var(--text-light);
+  color: black;
 }
 
 /* Error Message */
@@ -110,12 +109,13 @@ body {
 button {
   background-color: var(--button-bg);
   color: var(--bg-dark);
-  padding: 10px 15px;
+  padding: 12px 18px;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   cursor: pointer;
   font-weight: bold;
   transition: all 0.2s ease;
+  font-size: 16px;
 }
 
 button:hover {
@@ -124,13 +124,18 @@ button:hover {
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+button:active {
+  transform: scale(0.98);
+}
+
 /* Search Bar */
 .search-bar {
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   gap: 10px;
-  background-color: #e2e7e9dc; /* Slightly darker than the main background */
+  background-color: #e2e7e9dc;
   padding: 15px 20px;
   border-radius: 50px;
   border: 1px solid var(--card-border);
@@ -138,15 +143,20 @@ button:hover {
   width: 40%;
   margin: auto;
   position: fixed;
-  bottom: 20px; /* Sticks to bottom */
+  bottom: 20px;
   left: 50%;
   transform: translateX(-50%);
   z-index: 1000;
   transition: all 0.3s ease;
+
+  
+  
+  
 }
 
 .search-bar form {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 8px;
   width: 100%;
@@ -196,27 +206,35 @@ button:hover {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Upload Button / Label */
+/* Upload Button */
+.upload-container {
+  position: relative;
+  display: inline-block;
+}
+
 .upload-label {
-  font-size: 18px;
-  background-color:  #22363f;
-  color: var(--bg-dark);
+  background-color: #22363f;
+  color: white;
+  padding: 1px 1px;
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: none;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: bold;
+
+ 
 }
 
 .upload-label:hover {
-  background:  #2a4049;
+  background: #2a4049;
   transform: translateY(-2px);
 }
-/* File Icon & Selected File Display */
+
+/* File Display */
 .file-icon {
   display: flex;
   align-items: center;
@@ -241,16 +259,14 @@ button:hover {
 
 .remove-file-btn:hover {
   color: #ff8a80;
-  background-color: transparent;
-  transform: none;
-  box-shadow: none;
 }
 
-/* Search Button (Arrow) */
+
+
 .search-btn {
   font-size: 18px;
-  background-color:  #22363f;
-  color: var(--bg-dark);
+  background-color: #22363f;
+  color: white;
   border-radius: 50%;
   width: 40px;
   height: 40px;
@@ -259,12 +275,37 @@ button:hover {
   justify-content: center;
   border: none;
   cursor: pointer;
-  transition: background-color 0.3s, transform 0.2s;
+
+  position: absolute;
+  right: 10px; /* Adjust as needed */
+  top: 16px; /* Fixed value instead of 50% */
 }
 
 .search-btn:hover {
-  background-color:  #2a4049;
-  transform: translateY(-2px);
+  background-color: #2a4049; /* Slightly darker shade */
+}
+
+
+/* Tooltip */
+.tooltip {
+  visibility: hidden;
+  background-color: black;
+  color: white;
+  text-align: center;
+  padding: 5px 10px;
+  border-radius: 4px;
+  position: absolute;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+  font-size: 12px;
+}
+
+.upload-label:hover .tooltip {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* Responsive adjustments */
@@ -272,13 +313,13 @@ button:hover {
   .container {
     width: 90%;
   }
-  
+
   .search-bar {
     width: 90%;
     flex-wrap: wrap;
     padding: 12px 15px;
   }
-  
+
   .search-bar form {
     flex-wrap: wrap;
   }
